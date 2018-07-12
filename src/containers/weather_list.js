@@ -2,9 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Chart from '../components/chart'
 import GoogleMap from '../components/google_map'
+import TempOptions from '../components/temp_options'
 
 class WeatherList extends Component {
     renderWeather(cityData) {
+
+        if (!cityData) {
+            return (
+                <tr className="error">
+                    City not found.
+                </tr>
+            )
+        }
+
         const temp = cityData.list.map(weather => weather.main.temp * (9/5) - 459.67) 
         const humidity = cityData.list.map(weather=>weather.main.humidity)
         const pressure = cityData.list.map(weather=>weather.main.pressure)
@@ -14,10 +24,17 @@ class WeatherList extends Component {
             <tr key={cityData.city.name}>
                 <td>
                     <GoogleMap lon={lon} lat={lat} />
-                </td>                
-                <Chart data={temp} color='red' units='F' />
-                <Chart data={humidity} color='green' units='hPa' />
-                <Chart data={pressure} color='blue' units='%' />
+                </td>    
+                <td>            
+                    <Chart data={temp} color='red' units='&#176;F' />
+                    {/* <TempOptions /> */}
+                </td>
+                <td>
+                    <Chart data={pressure} color='blue' units='hPa' />
+                </td>
+                <td>
+                    <Chart data={humidity} color='green' units='%' />
+                </td>
             </tr>
         )
     }
@@ -28,9 +45,9 @@ class WeatherList extends Component {
                 <thead>
                     <tr>
                         <th>City</th>
-                        <th>Temperature (K)</th>
-                        <th>Pressure (hPa)</th>
-                        <th>Humidity (%)</th>
+                        <th>Temperature</th>
+                        <th>Pressure</th>
+                        <th>Humidity</th>
                     </tr>
                 </thead>
                 <tbody>
