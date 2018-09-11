@@ -1,8 +1,10 @@
+var GhPagesWebpackPlugin = require("gh-pages-webpack-plugin");
+
 module.exports = {
   entry: ["./src/index.js"],
   output: {
     path: __dirname,
-    publicPath: "/",
+    publicPath: "/WeatherReact/",
     filename: "bundle.js"
   },
   module: {
@@ -26,5 +28,17 @@ module.exports = {
       aggregateTimeout: 300,
       poll: 1000
     }
-  }
+  },
+  plugin: [
+    new GhPagesWebpackPlugin({
+      path: "./public",
+      options: {
+        message: "deployment",
+        user: {
+          name: "Zach",
+          email: "zbsedefian@gmail.com"
+        }
+      }
+    })
+  ]
 };
